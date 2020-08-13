@@ -25,13 +25,38 @@ def run_bot():
     # Add a command for the bot to listen for
     # by default listens for the function name and takes things after command as variable
     @bot.command()
-    async def setlocation(ctx, *loc_args):
-        loc_str = ' '.join(loc_args)
-        user_id = ctx.message.author.id
-        await ctx.send(f'{user_id} location has been set as {loc_str}.\nIf that is not correct please !setlocation again')
+    async def setlocation(ctx, country_code):
+        # Validate Country Code
+        if (country_code.isalpha() and len(country_code) == 3):
+            # Parse out necessary information
+            country_code = country_code.upper()
+            user_id = ctx.message.author.id
+            user_name = str(bot.get_user(user_id)).split("#")[0]
+            # Insert information into the database
+            loc_db.insert_location(user_id, country_code)
+            # Send a confirmation message using ctx.send()
+            await ctx.send(f'{user_name} location has been set as {country_code}.\nIf that is not correct please !setlocation again')
+        else: 
+            await ctx.send('Country Code Format Error!\nPlease make sure you are entering your countries 3 letter country code\nExample: England = GBR')
 
-    # @bot.command()
-    # async def locations(ctx, *user_args):
+
+    @bot.command()
+    async def locations(ctx, *args):
+        if not args:
+            all_user_locs = loc_db.get_all_locations()
+            locs = {}
+            for entry in all_user_locs:
+                if entry[1] in locs.keys():
+                    locs[entry[1]] = locs[entry[1]] + 1
+                else:
+                    locs[entry[1]] = 1
+            # Creating a string to return
+            all_locs_str = "Locations of Users:\n"
+            for key in locs:
+                all_locs_str += f'{key}: {locs[key]}\n'
+            await ctx.send(all_locs_str)
+        else: 
+            print(args[0])
 
     # Runs the bot with Disccord Developer Portal bot token
     bot.run(os.getenv("TOKEN"))    
