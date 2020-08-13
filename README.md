@@ -9,4 +9,4 @@
 ## Commands 
 
 - !setlocation => Allows a discord user to set what country they are from
-  - If your country has more than two words you should surround your country name in quotes
+  - If your country has more than two words there is no need to surround it in quotes
