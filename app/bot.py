@@ -62,7 +62,12 @@ def run_bot():
                 all_locs_str += f'{key}: {locs[key]}\n'
             await ctx.send(all_locs_str)
         else: 
-            print(args[0])
+            user_names = [user.name.upper() for user in bot.users]
+            print(user_names)
+            if args[0].upper() in user_names:
+                print(f"Found user {args[0]}")
+            else: 
+                print("No user found with that name")
 
     # Runs the bot with Disccord Developer Portal bot token
     bot.run(os.getenv("TOKEN"))    
