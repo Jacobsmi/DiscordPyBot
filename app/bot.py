@@ -8,6 +8,7 @@ import os
 
 
 def run_bot():
+    print("Running bot")
     # Create an instance of the database that will store information for the project
     loc_db = Database()
     loc_db.create_connection()

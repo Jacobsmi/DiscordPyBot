@@ -6,7 +6,8 @@ class Database:
         self.setup()
     
     def setup(self):
-        sql_statement = """CREATE TABLE IF NOT EXISTS user_locs (user_id INTEGER, country_code TEXT); """
+        print("Setting up table")
+        sql_statement = """CREATE TABLE IF NOT EXISTS user_locs (user_id INTEGER NOT NULL PRIMARY KEY, country_code TEXT); """
         conn = self.create_connection()
         cur = conn.cursor()
         cur.execute(sql_statement)
@@ -35,9 +36,21 @@ class Database:
         return rows    
     
     def insert_location(self, user_id, country_code):
-        sql_statement = f'INSERT INTO user_locs VALUES ({user_id}, "{country_code}");'
-        conn = self.create_connection()
-        cur = conn.cursor()
-        cur.execute(sql_statement)
-        conn.commit()
-        conn.close()
+        try:
+            sql_statement = f'INSERT INTO user_locs VALUES ({user_id}, "{country_code}");'
+            conn = self.create_connection()
+            cur = conn.cursor()
+            cur.execute(sql_statement)
+            conn.commit()
+            conn.close()
+            return 'success' 
+        except sqlite3.IntegrityError:
+            sql_statement = f'UPDATE user_locs SET country_code = "{country_code}" WHERE user_id = {user_id};'
+            print(sql_statement)
+            conn = self.create_connection()
+            cur = conn.cursor()
+            cur.execute(sql_statement)
+            conn.commit()
+            conn.close()
+        except:
+            print("There was an error inserting the values")
