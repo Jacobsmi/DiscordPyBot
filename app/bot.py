@@ -34,9 +34,14 @@ def run_bot():
             user_id = ctx.message.author.id
             user_name = str(bot.get_user(user_id)).split("#")[0]
             # Insert information into the database
-            loc_db.insert_location(user_id, country_code)
-            # Send a confirmation message using ctx.send()
-            await ctx.send(f'{user_name} location has been set as {country_code}.\nIf that is not correct please !setlocation again')
+            result = loc_db.insert_location(user_id, country_code)
+            if result == 'insert success':
+                # Send a confirmation message using ctx.send()
+                await ctx.send(f"{user_name}'s location has been set as {country_code}.\nIf that is not correct please !setlocation again")
+            elif result == 'update success':
+                await ctx.send(f"{user_name}'s location has been updated to {country_code}.")
+            else:
+                await ctx.send('There was an error setting your location.')
         else: 
             await ctx.send('Country Code Format Error!\nPlease make sure you are entering your countries 3 letter country code\nExample: England = GBR')
 

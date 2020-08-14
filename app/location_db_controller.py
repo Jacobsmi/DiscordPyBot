@@ -36,6 +36,7 @@ class Database:
         return rows    
     
     def insert_location(self, user_id, country_code):
+        # Attempts to insert a new entry in the database
         try:
             sql_statement = f'INSERT INTO user_locs VALUES ({user_id}, "{country_code}");'
             conn = self.create_connection()
@@ -43,14 +44,13 @@ class Database:
             cur.execute(sql_statement)
             conn.commit()
             conn.close()
-            return 'success' 
+            return 'insert success' 
+        # Catches the exception that the id already exists and then triggers an update instead
         except sqlite3.IntegrityError:
             sql_statement = f'UPDATE user_locs SET country_code = "{country_code}" WHERE user_id = {user_id};'
-            print(sql_statement)
             conn = self.create_connection()
             cur = conn.cursor()
             cur.execute(sql_statement)
             conn.commit()
             conn.close()
-        except:
-            print("There was an error inserting the values")
+            return 'update success'
