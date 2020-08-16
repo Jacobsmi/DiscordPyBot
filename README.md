@@ -8,5 +8,8 @@
 
 ## Commands 
 
+- !locations (username) =>
+  - no arguments after the command shows the countries and the number of people that have registered in that country
+  - adding a username after the command shows where that user is from 
 - !setlocation => Allows a discord user to set what country they are from
   - If your country has more than two words there is no need to surround it in quotes

@@ -2,14 +2,16 @@
 
 ## Working on
 
-
+- Encrypt Data being stored
 
 ## To Do
 
-- Encrypt Data being stored
+
 
 ## Completed
 
+
+- Working on the !locations username command
 - Getting all entries from the database and displaying
 - Added the ablility for a user to !setlocation including storing in the database
 - Bot receive commands

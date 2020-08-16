@@ -35,6 +35,17 @@ class Database:
             print("Errror getting all entries in the DB")
         return rows    
     
+    def get_user_location(self, user_id):
+        try:
+            conn = self.create_connection()
+            cur = conn.cursor()
+            cur.execute(f'SELECT * FROM user_locs WHERE user_id = {user_id}')
+            record = cur.fetchone()
+            conn.close()
+            return record
+        except:
+            print("Errror getting user from DB")   
+
     def insert_location(self, user_id, country_code):
         # Attempts to insert a new entry in the database
         try:

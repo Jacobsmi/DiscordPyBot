@@ -61,13 +61,21 @@ def run_bot():
             for key in locs:
                 all_locs_str += f'{key}: {locs[key]}\n'
             await ctx.send(all_locs_str)
-        else: 
-            user_names = [user.name.upper() for user in bot.users]
-            print(user_names)
-            if args[0].upper() in user_names:
-                print(f"Found user {args[0]}")
-            else: 
+        else:
+            name = ctx.message.content.replace("!locations ","").upper()
+            requested_user = [user for user in bot.users if user.name.upper() == name.upper()]
+            if not requested_user:
                 print("No user found with that name")
+            else:
+                # Checks to see if there was more than one user with the specified username
+                if len(requested_user) == 1:
+                    record = loc_db.get_user_location(requested_user[0].id)
+                    await ctx.send(f'{requested_user[0].name} is from {record[1]}')
+                else:
+                    print(f'There is more than 1 user named {name}')
+                    for user in requested_user:
+                        record = loc_db.get_user_location(user.id)
+                        ctx.send(f'{user.name} is from {record[1]}')
 
     # Runs the bot with Disccord Developer Portal bot token
     bot.run(os.getenv("TOKEN"))    
