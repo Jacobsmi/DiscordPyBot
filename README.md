@@ -8,6 +8,7 @@
 
 ## Commands 
 
+- !locatonhelp => prints a basic how to use guide in discord
 - !locations (username) =>
   - no arguments after the command shows the countries and the number of people that have registered in that country
   - adding a username after the command shows where that user is from 

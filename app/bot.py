@@ -21,6 +21,10 @@ def run_bot():
         help_str += "You can set your location using ``!setlocation country_code``\n"
         help_str += "Please use your countries three letter country code which can be found here https://abbreviations.yourdictionary.com/articles/country-abbreviations.html\n"
         help_str += "Example: !setlocation USA or !setlocation GBR\n"
+        help_str += "You can get all users locations with the !locations command\n"
+        help_str += "You can also add an argument to the !locations command like so: !locations username\n"
+        help_str += "Example: !locations jacobsm1\n"
+        help_str += "This will return a specific user's location\n"
         await ctx.send(help_str)
     
     # Add a command for the bot to listen for
